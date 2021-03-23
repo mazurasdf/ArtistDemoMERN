@@ -3,6 +3,8 @@ import axios from 'axios';
 import {useEffect, useState} from 'react';
 import AllArtists from './views/AllArtists';
 import NewArtist from './views/NewArtist';
+import SingleArtist from './views/SingleArtist';
+import EditArtist from './views/EditArtist';
 import {Router} from "@reach/router";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,6 +33,8 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <SingleArtist path="/artists/:id" />
+        <EditArtist path="/artists/:id/edit" setLoaded={setLoaded}/>
         <NewArtist path="/artists/new" setLoaded={setLoaded}/>
         <AllArtists path="/artists/" artists={artists} onDeleteHandler={onDeleteHandler}/>
       </Router>

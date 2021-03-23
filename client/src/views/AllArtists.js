@@ -19,7 +19,7 @@ const AllArtists = (props) => {
                 {
                     props.artists.map((artist, key)=>{
                     return <tr key={key}>
-                            <td>{artist.name}</td>
+                            <td><Link to={`/artists/${artist._id}`}>{artist.name}</Link></td>
                             <td><i>{artist.genre}</i></td>
                             <td><button onClick={() =>props.onDeleteHandler(artist._id)} className="btn btn-danger">remove</button></td>
                         </tr>

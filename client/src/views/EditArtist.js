@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {navigate} from "@reach/router";
 import Form from '../components/Form';
 
-const NewArtist = (props) => {
+const EditArtist = (props) => {
     const [form, setForm] = useState({
         "name": "",
         "genre": ""
@@ -12,6 +12,12 @@ const NewArtist = (props) => {
         "name": "",
         "genre": ""
     })
+
+    useEffect(()=>{
+        axios.get(`http://localhost:8000/api/artists/${props.id}`)
+            .then(res=> setForm(res.data.artist))
+            .catch(err=> console.log(err))
+    }, [props.id])
 
     const onChangeHandler = (event) => {
         setForm({
@@ -22,12 +28,12 @@ const NewArtist = (props) => {
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        axios.post("http://localhost:8000/api/artists/new",form)
+        axios.put(`http://localhost:8000/api/artists/${props.id}`,form)
             .then(res => {
                 console.log(res.data);
                 if(res.data.artist){
                     props.setLoaded(false);
-                    navigate("/artists");
+                    navigate(`/artists/${props.id}`);
                 }
                 else{
                     setErrors(res.data.error.errors);
@@ -51,10 +57,10 @@ const NewArtist = (props) => {
     return(
         <div className="container">
             
-            <h1>Create a new artist!</h1>
+            <h1>Edit artist</h1>
             <Form form={form} errors={errors} onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} nameValid={nameValid} allValid={allValid}/>
         </div>
     )
 }
 
-export default NewArtist;
+export default EditArtist;
